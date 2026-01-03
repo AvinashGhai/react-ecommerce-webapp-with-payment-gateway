@@ -1,5 +1,7 @@
 import Navigation from "./customer/component/navigation/navigation";
 import Homepage from "./customer/pages/Homepage/homepage";
+import React from "react";
+import Footer from "./customer/component/footer/footer.jsx";
 
 export default function App() {
   return (
@@ -16,6 +18,9 @@ export default function App() {
       </main>
       <div>
         <Homepage />
+      </div>
+      <div>
+        <Footer />
       </div>
     </>
   );
