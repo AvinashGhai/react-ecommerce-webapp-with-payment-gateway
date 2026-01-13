@@ -12,7 +12,7 @@ const Homepage = () => {
   return (
     <>
       <div>
-        {/* <MainCarousel /> */}
+        { <MainCarousel /> }
         <div className="space-y-10 py-8 flex flex-col justify-center px-5 lg:px-10">
           <p className="mt-6 text-lg font-semibold p-3 mb-1">Discover our featured products</p>
           <HomeSectionCarousel data={men_kurta} sectionName="Men's Kurtas" />

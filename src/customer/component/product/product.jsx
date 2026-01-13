@@ -61,6 +61,7 @@ export default function Product() {
     }
 
     navigate({ search: params.toString() })
+
   }
 
   return (
