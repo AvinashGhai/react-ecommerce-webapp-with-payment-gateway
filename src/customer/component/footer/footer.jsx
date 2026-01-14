@@ -19,7 +19,7 @@ const Footer = () => {
           {/* Company Info & Newsletter */}
           <div className="lg:col-span-2">
             <Typography variant="h5" className="font-bold mb-4">
-              ShopName
+              E-Commerce
             </Typography>
             <Typography variant="body2" className="text-gray-400 mb-6">
               Your one-stop destination for quality products. Shop with confidence and enjoy amazing deals every day.

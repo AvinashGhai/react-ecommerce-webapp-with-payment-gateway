@@ -5,6 +5,7 @@ import Footer from "./customer/component/footer/footer";
 import Product from "./customer/component/product/product";
 import ProductDetails from "./customer/component/productDetails/productDetails";
 import Cart from "./customer/component/cart/Cart";
+import Checkout from "./customer/component/Checkout/Checkout";
 
 export default function App() {
   return (
@@ -17,7 +18,8 @@ export default function App() {
       </Routes>
       <ProductDetails />*/}
 
-      {<Cart />}
+      {/*<Cart />*/}
+      {<Checkout/>}
 
       {<Footer />}
 
