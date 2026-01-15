@@ -6,20 +6,40 @@ import Product from "./customer/component/product/product";
 import ProductDetails from "./customer/component/productDetails/productDetails";
 import Cart from "./customer/component/cart/Cart";
 import Checkout from "./customer/component/Checkout/Checkout";
+import Order from "./customer/component/Order/Order";
+import OrderDetail from "./customer/component/Order/OrderDetail";
 
 export default function App() {
   return (
     <>
+    <div>
       {<Navigation />}
 
-      {/*<Routes>
+    </div>
+      
+      <Routes>
+        <Route path="/" element={<Homepage/>}></Route>
+        <Route path="/Cart" element={<Cart/>}></Route>
+        <Route path="/:lavelone/:laveltwo/:lavelthree" element={<Product/>}></Route>
+
+      </Routes>
+
+      <div>
+        {/*<Routes>
         <Route path="/" element={<Homepage />} />
         <Route path="/products" element={<Product />} />
       </Routes>
       <ProductDetails />*/}
 
       {/*<Cart />*/}
-      {<Checkout/>}
+      {/*<Checkout/>*/}
+
+      {/*<Order/>*/}
+      {<OrderDetail/>}
+      </div>
+
+      
+      
 
       {<Footer />}
 
