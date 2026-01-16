@@ -12,38 +12,31 @@ import OrderDetail from "./customer/component/Order/OrderDetail";
 export default function App() {
   return (
     <>
-    <div>
-      {<Navigation />}
-
-    </div>
+      <Navigation />
       
       <Routes>
-        <Route path="/" element={<Homepage/>}></Route>
-        <Route path="/Cart" element={<Cart/>}></Route>
-        <Route path="/:lavelone/:laveltwo/:lavelthree" element={<Product/>}></Route>
-
-      </Routes>
-
-      <div>
-        {/*<Routes>
         <Route path="/" element={<Homepage />} />
-        <Route path="/products" element={<Product />} />
+        
+        {/* Product listing page - matches /women/clothing/tops, /men/accessories/watches, etc */}
+        <Route path="/:lavelone/:laveltwo/:lavelthree" element={<Product />} />
+        
+        {/* Product details page */}
+        <Route path="/product/:id" element={<ProductDetails />} />
+        
+        {/* Cart page */}
+        <Route path="/cart" element={<Cart />} />
+        
+        {/* Checkout page */}
+        <Route path="/checkout" element={<Checkout />} />
+        
+        {/* Orders page */}
+        <Route path="/orders" element={<Order />} />
+        
+        {/* Order details page */}
+        <Route path="/order/:id" element={<OrderDetail />} />
       </Routes>
-      <ProductDetails />*/}
 
-      {/*<Cart />*/}
-      {/*<Checkout/>*/}
-
-      {/*<Order/>*/}
-      {<OrderDetail/>}
-      </div>
-
-      
-      
-
-      {<Footer />}
-
-      
+      <Footer />
     </>
   );
 }

@@ -8,6 +8,7 @@ import ProductViewCard from './ProductViewCard';
 import { LinearProgress } from '@mui/material';
 import HomeSectionCard from '../HomeSectionCard/HomeSectionCard';
 import { men_kurta } from '../../../data/men/men_kurta';
+import { useNavigate } from 'react-router-dom';
 
 const product = {
     name: 'Basic Tee 6-Pack',
@@ -65,6 +66,10 @@ function classNames(...classes) {
 }
 
 export default function ProductDetails() {
+    const navigate=useNavigate()
+    const handleAddtoCart=()=>{
+        navigate('/Cart')
+    }
     return (
         <div className="bg-white lg:px-20">
             <div className="pt-6">
@@ -220,6 +225,7 @@ export default function ProductDetails() {
                                 variant="contained" 
                                 fullWidth
                                 sx={{ px: "2rem", py: "1rem", mt: 3 }}
+                                onClick={handleAddtoCart}
                             >
                                 Add to bag
                             </Button>

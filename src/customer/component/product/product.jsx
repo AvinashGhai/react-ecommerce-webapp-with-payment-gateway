@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import {
   Dialog,
   DialogBackdrop,
@@ -33,10 +33,20 @@ const sortOptions = [
 
 export default function Product() {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
+  const [sortBy, setSortBy] = useState('lowToHigh')
 
   const location = useLocation()
   const navigate = useNavigate()
+  const { lavelone, laveltwo, lavelthree } = useParams()
   const searchParams = new URLSearchParams(location.search)
+
+  // ✅ GET CATEGORY TITLE FROM URL PARAMS
+  const getCategoryTitle = () => {
+    if (lavelone && laveltwo && lavelthree) {
+      return `${lavelone.charAt(0).toUpperCase() + lavelone.slice(1)} - ${laveltwo.charAt(0).toUpperCase() + laveltwo.slice(1)} - ${lavelthree.charAt(0).toUpperCase() + lavelthree.slice(1)}`
+    }
+    return 'Products'
+  }
 
   // ✅ SINGLE + MULTI FILTER HANDLER
   const handleFilter = (value, sectionId, type) => {
@@ -61,8 +71,38 @@ export default function Product() {
     }
 
     navigate({ search: params.toString() })
-
   }
+
+  // ✅ SORT HANDLER
+  const handleSort = (sortValue) => {
+    setSortBy(sortValue)
+    // Add your sorting logic here based on sortValue
+  }
+
+  // ✅ GET FILTERED PRODUCTS
+  const getFilteredProducts = () => {
+    let products = [...men_kurta]
+
+    // Apply category filters based on URL params
+    if (lavelthree && lavelthree !== 'all') {
+      // Filter products based on category
+      products = products.filter(product => {
+        // Add your filtering logic here based on lavelone, laveltwo, lavelthree
+        return true
+      })
+    }
+
+    // Apply sort
+    if (sortBy === 'lowToHigh') {
+      products.sort((a, b) => a.discountedPrice - b.discountedPrice)
+    } else if (sortBy === 'highToLow') {
+      products.sort((a, b) => b.discountedPrice - a.discountedPrice)
+    }
+
+    return products.slice(0, 12)
+  }
+
+  const filteredProducts = getFilteredProducts()
 
   return (
     <div className="bg-white">
@@ -128,7 +168,7 @@ export default function Product() {
 
         {/* HEADER */}
         <div className="flex justify-between items-center border-b pt-24 pb-6">
-          <h1 className="text-4xl font-bold">Products</h1>
+          <h1 className="text-4xl font-bold">{getCategoryTitle()}</h1>
 
           <div className="flex items-center gap-4">
             <Menu as="div" className="relative">
@@ -137,12 +177,15 @@ export default function Product() {
                 <ChevronDownIcon className="h-5 w-5 ml-1" />
               </MenuButton>
 
-              <MenuItems className="absolute right-0 mt-2 w-40 bg-white shadow rounded">
+              <MenuItems className="absolute right-0 mt-2 w-40 bg-white shadow rounded z-10">
                 {sortOptions.map(option => (
                   <MenuItem key={option.value}>
-                    <div className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                    <button
+                      onClick={() => handleSort(option.value)}
+                      className="w-full text-left px-4 py-2 hover:bg-gray-100 cursor-pointer text-sm"
+                    >
                       {option.name}
-                    </div>
+                    </button>
                   </MenuItem>
                 ))}
               </MenuItems>
@@ -170,7 +213,7 @@ export default function Product() {
 
               {filters.map(section => (
                 <Disclosure key={section.id} as="div" className="border-b py-4">
-                  <DisclosureButton className="flex justify-between font-medium">
+                  <DisclosureButton className="flex justify-between font-medium w-full">
                     {section.name}
                     <PlusIcon className="h-5 w-5 data-[open]:hidden" />
                     <MinusIcon className="h-5 w-5 hidden data-[open]:block" />
@@ -205,30 +248,37 @@ export default function Product() {
 
             {/* PRODUCTS */}
             <div className="lg:col-span-3 flex flex-wrap justify-center">
-              {men_kurta.slice(0, 12).map(product => (
-                <div
-                  key={product.id || product.image}
-                  className="w-[15rem] m-3 p-3 shadow hover:scale-105 transition"
-                >
-                  <img
-                    loading="lazy"
-                    src={product.image}
-                    alt={product.brand}
-                    className="h-64 w-full object-cover"
-                  />
+              {filteredProducts.length > 0 ? (
+                filteredProducts.map(product => (
+                  <div
+                    key={product.id || product.image}
+                    onClick={() => navigate(`/product/${product.id}`)}
+                    className="w-[15rem] m-3 p-3 shadow hover:scale-105 transition cursor-pointer"
+                  >
+                    <img
+                      loading="lazy"
+                      src={product.image}
+                      alt={product.brand}
+                      className="h-64 w-full object-cover"
+                    />
 
-                  <p className="font-semibold mt-2">{product.brand}</p>
-                  <p className="text-sm text-gray-600">{product.description}</p>
+                    <p className="font-semibold mt-2">{product.brand}</p>
+                    <p className="text-sm text-gray-600">{product.description}</p>
 
-                  <div className="flex gap-3 mt-2">
-                    <p>₹{product.discountedPrice}</p>
-                    <p className="line-through text-gray-400">₹{product.price}</p>
-                    <p className="text-green-600">
-                      {product.discountPercent}% OFF
-                    </p>
+                    <div className="flex gap-3 mt-2">
+                      <p>₹{product.discountedPrice}</p>
+                      <p className="line-through text-gray-400">₹{product.price}</p>
+                      <p className="text-green-600">
+                        {product.discountPercent}% OFF
+                      </p>
+                    </div>
                   </div>
+                ))
+              ) : (
+                <div className="col-span-3 text-center py-12">
+                  <p className="text-gray-600 text-lg">No products found</p>
                 </div>
-              ))}
+              )}
             </div>
 
           </div>
