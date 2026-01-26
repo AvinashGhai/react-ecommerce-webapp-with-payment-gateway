@@ -1,4 +1,5 @@
 import { Fragment, useState } from 'react'
+import Authmodal from '../../auth/Authmodal'
 
 import {
   Dialog,
@@ -141,11 +142,16 @@ const navigation = {
 
 export default function Navigation() {
   const [open, setOpen] = useState(false)
+  const [openAuthmodal, setOpenAuthmodal] = useState(false)
   const navigate = useNavigate()
 
   const handleNavigate = (href) => {
     navigate(href)
     setOpen(false)
+  }
+
+  const handleClose = () => {
+    setOpenAuthmodal(false)
   }
 
   return (
@@ -255,7 +261,7 @@ export default function Navigation() {
             <div className="space-y-6 border-t border-gray-200 px-4 py-6">
               <div className="flow-root">
                 <button
-                  onClick={() => handleNavigate('/signin')}
+                  onClick={() => setOpenAuthmodal(true)}
                   className="text-left -m-2 block w-full p-2 font-medium text-gray-900"
                 >
                   Sign in
@@ -263,7 +269,7 @@ export default function Navigation() {
               </div>
               <div className="flow-root">
                 <button
-                  onClick={() => handleNavigate('/signup')}
+                  onClick={() => setOpenAuthmodal(true)}
                   className="text-left -m-2 block w-full p-2 font-medium text-gray-900"
                 >
                   Create account
@@ -405,14 +411,14 @@ export default function Navigation() {
               <div className="ml-auto flex items-center">
                 <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-end lg:space-x-6">
                   <button
-                    onClick={() => navigate('/signin')}
+                    onClick={() => setOpenAuthmodal(true)}
                     className="text-sm font-medium text-gray-700 hover:text-gray-800"
                   >
                     Sign in
                   </button>
                   <span aria-hidden="true" className="h-6 w-px bg-gray-200" />
                   <button
-                    onClick={() => navigate('/signup')}
+                    onClick={() => setOpenAuthmodal(true)}
                     className="text-sm font-medium text-gray-700 hover:text-gray-800"
                   >
                     Create account
@@ -455,6 +461,8 @@ export default function Navigation() {
           </div>
         </nav>
       </header>
+
+      <Authmodal handleClose={handleClose} open={openAuthmodal} />
     </div>
   )
 }
